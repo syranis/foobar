@@ -13,11 +13,12 @@ def xorn(number):
 
 
 def solution(start, length):
-    checksum = xorn(start + length ** 2 - length + 1)
-    for num in range(start, start + length ** 2 - length):
-        if num == 0:
-            pass
-    return checksum ^ xorn(start)
+    checksum = xorn(start + length * 2 - 2)
+    print(f'1: {start} -- {start + length * 2 - 2}')
+    for line in range(2, length):
+        print(f'{line}: {start + (line * (length + 1)) - (length - line + 1)} -- {start + (line * length)}')
+        checksum ^= xorn(start + (line * (length + 1)) - (length - line + 1)) ^ xorn(start + (line * length))
+    return checksum
 
 
 # c = 0
@@ -31,8 +32,8 @@ def solution(start, length):
 #     assert c == x
 
 
-print(solution(0, 3))
-assert solution(0, 3) == 2
+# print(solution(0, 3))
+# assert solution(0, 3) == 2
 print(solution(17, 4))
 assert solution(17, 4) == 14
 
