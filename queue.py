@@ -12,12 +12,18 @@ def xorn(number):
     return int(final, 2)
 
 
+# 0 1 2 /
+# 3 4 / 5
+# 6 / 7 8
+# (0 -> 4) ^ ((0 -> 5
 def solution(start, length):
-    checksum = xorn(start + length ** 2 - length + 1)
-    for num in range(start, start + length ** 2 - length):
-        if num == 0:
-            pass
-    return checksum ^ xorn(start)
+    checksum = 0
+    for line in range(length):
+        if line == 0:
+            continue
+        print(f'{start + length * (line + 1)} -> {start + length * (line + 1) + (length - line)}')
+        checksum ^= xorn(start + length * (line + 1)) ^ xorn(start + length * line + (length - line))
+    return checksum
 
 
 # c = 0
