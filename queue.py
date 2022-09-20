@@ -15,10 +15,13 @@ def xorn(number):
 # 0 1 2 /
 # 3 4 / 5
 # 6 / 7 8
-# (0 -> 4) ^ ((0 -> 5
+# (0 -> 4) ^ ((0 -> 5) ^ (0 -> 4)) ^ (0 -> 6)
 def solution(start, length):
-    checksum = 0
-    for line in range(length):
+    checksum = xorn(start + length * 2 - 2) ^ xorn(start + length ** 2 - length)
+    print(f'{start} -> {start + length * 2 - 2}')
+    print(f'{start} -> {start + length ** 2 - length}')
+    for line in range(1, length - 1):
+        print(line)
         if line == 0:
             continue
         print(f'{start + length * (line + 1)} -> {start + length * (line + 1) + (length - line)}')
