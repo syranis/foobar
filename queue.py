@@ -15,7 +15,7 @@ def xorn(number):
 # 0 1 2 /
 # 3 4 / 5
 # 6 / 7 8
-# (0 -> 4) ^ ((0 -> 5) ^ (0 -> 4)) ^ (0 -> 6)
+# (0 -> 4) ^ ((0 -> 5) ^ (0 -> 4) ^ (0 ^ ) ^ (0 -> 6)
 
 # 17 18 19 20 //
 # 21 22 23 // 24
@@ -23,12 +23,13 @@ def xorn(number):
 # 29 // 30 31 32
 # (17 -> 23) ^ (17 -> 29) ^ (21 -> 24) ^ (25 -> 27)
 def solution(start, length):
-    checksum = xorn(start + length * 2 - 2) ^ xorn(start + length ** 2 - length)
-    print(f'{start} -> {start + length * 2 - 2}')
-    print(f'{start} -> {start + length ** 2 - length}')
+    checksum = xorn(start + length - 1) ^ xorn(start - 1)  # first line
+    checksum ^= start + length ** 2 - length  # last line
     for line in range(1, length - 1):
-        print(f'{start + length * line} -> {start + length * line + (length - line - 1)}')
-        checksum ^= xorn(start + length * line) ^ xorn(start + length * line + (length - line - 1))
+        first = start + length * line - 1
+        last = start + length * (line + 1) - line - 1
+        print(f'{first} -> {last}')
+        checksum ^= xorn(first) ^ xorn(last)
     return checksum
 
 
