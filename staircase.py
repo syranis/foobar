@@ -1,7 +1,6 @@
-# import math
-
-
 cache = {}
+
+
 def solution_(n, last):
     global cache
     if (n, last) in cache:
@@ -34,7 +33,9 @@ def solution(n):
     return solution_(n, n)
     # return 245 * math.exp(0.0755 * n)
 
+
 import time
+
 # 50 -> 3657
 # 100 -> 444792
 # 120 -> 2194431
