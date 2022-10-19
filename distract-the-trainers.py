@@ -17,6 +17,8 @@ def solution(banana_list):
         for second in banana_list:
             previous = set()
             while True:
+                # This while loop never ends for 1, 2 and multiples even though it repeats all the time
+                # essentially, TODO: stop being a dunce you bellend
                 try:
                     bigger, smaller = compareSize(bigger, smaller)
                     if (bigger, smaller) == (0, 0):
@@ -28,9 +30,12 @@ def solution(banana_list):
                     break
                 bigger -= smaller
                 smaller *= 2
-                previous.add((bigger, smaller))
+                previous.add((smaller, bigger))
             del bigger, smaller
     return infinites
 
 
-print(solution([1, 2]))
+infinites = solution([1, 7, 3, 21, 13, 19])
+print(infinites)
+for i in infinites:
+    print(len(infinites[1]))
