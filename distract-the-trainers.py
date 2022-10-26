@@ -28,12 +28,11 @@ def findLoops(list):
 
 def solution(banana_list):
     loops = findLoops(banana_list)
-    for k in loops:
-        loops[k].sort()
     used = []
     for first in sorted(loops.keys(), key=lambda x: len(loops[x])):
         if first in used:
             continue
+        loops[first].sort()
         for second in loops[first]:
             if second not in used:
                 used.extend([first, second])
