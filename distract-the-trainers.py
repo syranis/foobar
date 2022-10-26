@@ -32,7 +32,7 @@ def solution(banana_list):
     for first in sorted(loops.keys(), key=lambda x: len(loops[x])):
         if first in used:
             continue
-        loops[first].sort()
+        loops[first] = sorted(loops[first], key=lambda x: len(loops[x]))
         for second in loops[first]:
             if second not in used:
                 used.extend([first, second])
