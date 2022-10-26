@@ -36,8 +36,13 @@ def solution(banana_list):
         for second in loops[first]:
             if second not in used:
                 used.extend([first, second])
+                for i in loops:
+                    if first in loops[i]:
+                        loops[i].remove(first)
+                    if second in loops[i]:
+                        loops[i].remove(second)
                 break
     return len(banana_list) - len(used)
 
 
-print(solution([1, 7, 3, 21, 13, 19]))
+print(solution([1, 19, 3, 21, 7, 13]))
