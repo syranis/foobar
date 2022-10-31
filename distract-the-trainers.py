@@ -30,24 +30,17 @@ def solution(banana_list):
     loops = findLoops(banana_list)
     final = len(banana_list)
     for first in sorted(loops.keys(), key=lambda x: len(loops[x])):
-        print(loops)
         loops[first] = sorted(loops[first], key=lambda x: len(loops[x]))
         if len(loops[first]) == 0:
             continue
         final -= 2
         second = loops[first][0]
-        for i in loops:
-            if i == first or i == second:
-                loops[i] = []
-            try:
-                loops[i].remove(first)
-            except ValueError:
-                pass
-            try:
-                loops[i].remove(second)
-            except ValueError:
-                pass
+        for i in loops[first]:
+            loops[i].remove(first)
+        for i in loops[second]:
+            loops[i].remove(second)
+        loops[second] = []
     return final
 
 
-print(solution([1, 3, 7, 9, 13, 19, 21]))
+print(solution([1, 3, 7, 13, 19, 21]))
