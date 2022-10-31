@@ -28,21 +28,26 @@ def findLoops(list):
 
 def solution(banana_list):
     loops = findLoops(banana_list)
-    used = []
+    final = len(banana_list)
     for first in sorted(loops.keys(), key=lambda x: len(loops[x])):
-        if first in used:
-            continue
+        print(loops)
         loops[first] = sorted(loops[first], key=lambda x: len(loops[x]))
-        for second in loops[first]:
-            if second not in used:
-                used.extend([first, second])
-                for i in loops:
-                    if first in loops[i]:
-                        loops[i].remove(first)
-                    if second in loops[i]:
-                        loops[i].remove(second)
-                break
-    return len(banana_list) - len(used)
+        if len(loops[first]) == 0:
+            continue
+        final -= 2
+        second = loops[first][0]
+        for i in loops:
+            if i == first or i == second:
+                loops[i] = []
+            try:
+                loops[i].remove(first)
+            except ValueError:
+                pass
+            try:
+                loops[i].remove(second)
+            except ValueError:
+                pass
+    return final
 
 
-print(solution([1, 19, 3, 21, 7, 13]))
+print(solution([1, 3, 7, 9, 13, 19, 21]))
