@@ -29,9 +29,14 @@ def findLoops(list):
 def solution(banana_list):
     loops = findLoops(banana_list)
     final = len(banana_list)
-    for first in sorted(loops.keys(), key=lambda x: len(loops[x])):
+    tried = 0
+    while True:
+        if len(loops) - 1 == tried:
+            return final
+        first = sorted(loops.keys(), key=lambda x: len(loops[x]))[tried]
         loops[first] = sorted(loops[first], key=lambda x: len(loops[x]))
-        if len(loops[first]) == 0:
+        if len(loops[first]) == 0 and tried < len(loops):
+            tried += 1
             continue
         final -= 2
         second = loops[first][0]
@@ -40,7 +45,9 @@ def solution(banana_list):
         for i in loops[second]:
             loops[i].remove(second)
         loops[second] = []
-    return final
+        loops[first] = []
+        if not any(a != [] for a in loops.values()):
+            return final
 
 
-print(solution([1, 3, 7, 13, 19, 21]))
+print(solution([1, 7, 3, 21, 13, 19]))
