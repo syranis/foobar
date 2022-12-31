@@ -7,10 +7,8 @@ def solution(times, time_limit):
     previous = [[None] * length] * length
     shortest_times = [[0] * length] * length
     for i in range(length):
-        # TODO: Find a better way to do this
-        try:
-            shortest_times[i], previous[i] = shortestSingleSource(times, i)
-        except TypeError:
+        shortest_times[i], previous[i] = shortestSingleSource(times, i)
+        if cycleDetection(times, shortest_times[i]):
             return list(range(length - 2))
     return
 
@@ -28,14 +26,16 @@ def shortestSingleSource(times, origin):
             if cost_estimates[u] + times[u][v] < cost_estimates[v]:
                 cost_estimates[v] = cost_estimates[u] + times[u][v]
                 previous[v] = u
+    return cost_estimates, previous
 
-    # negative cycle detection
+
+def cycleDetection(times, time_slice):
+    length = len(times)
     for u in range(length):
         for v in range(length):
-            if cost_estimates[u] + times[u][v] < cost_estimates[v]:
+            if time_slice[u] + times[u][v] < time_slice[v]:
                 return True
-
-    return cost_estimates, previous
+    return False
 
 
 def backtrack(origin, destination, previous):
