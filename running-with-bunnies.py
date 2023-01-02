@@ -4,12 +4,11 @@ import itertools
 def solution(times, time_limit):
     # initialize
     length = len(times)
-    previous = [[None] * length] * length
     shortest_times = [[0] * length] * length
 
     # find the shortest path from each node to all other nodes (and check the graph for negative cycles)
     for i in range(length):
-        shortest_times[i], previous[i] = shortestSingleSource(times, i)
+        shortest_times[i] = shortestSingleSource(times, i)
         if cycleDetection(times, shortest_times[i]):
             return list(range(length - 2))
 
@@ -29,11 +28,7 @@ def solution(times, time_limit):
                 best_try = combo
 
     # bunnies only
-    answer = set()
-    for edge_origin in range(len(best_try) - 1):
-        answer.update(backtrack(best_try[edge_origin], best_try[edge_origin + 1], previous))
-
-    return [x - 1 for x in sorted(list(answer))[1:-1]]
+    return [x - 1 for x in sorted(list(best_try))[1:-1]]
 
 
 def powerset(num_bunnies):
@@ -45,7 +40,6 @@ def shortestSingleSource(times, origin):
     # initialization
     length = len(times)
     cost_estimates = [float('inf')] * length
-    previous = [None] * length
     cost_estimates[origin] = 0
 
     # relaxation
@@ -54,8 +48,7 @@ def shortestSingleSource(times, origin):
             for v in range(length):
                 if cost_estimates[u] + times[u][v] < cost_estimates[v]:
                     cost_estimates[v] = cost_estimates[u] + times[u][v]
-                    previous[v] = u
-    return cost_estimates, previous
+    return cost_estimates
 
 
 def cycleDetection(times, time_slice):
@@ -65,12 +58,3 @@ def cycleDetection(times, time_slice):
             if time_slice[u] + times[u][v] < time_slice[v]:
                 return True
     return False
-
-
-def backtrack(origin, destination, previous):
-    visited = {origin, destination}
-    current = previous[destination][origin]
-    while current and current != origin:
-        visited.add(current)
-        current = previous[destination][current]
-    return visited
